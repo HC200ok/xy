@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>打开闲鱼</title>
+<style>
+:root { --bg: #ffffff; --fg: #1d1d1f; --mute: #6e6e73; --acc: #ffda00; --acc-fg: #111111; }
+@media (prefers-color-scheme: dark) { :root { --bg: #111111; --fg: #eeeeee; --mute: #9a9a9a; } }
+body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+       padding: 16px; box-sizing: border-box; background: var(--bg); color: var(--fg);
+       font: 16px/1.6 -apple-system, "PingFang SC", "Hiragino Sans", sans-serif; }
+main { width: 100%; max-width: 360px; text-align: center; }
+.btn { display: block; margin: 16px 0 12px; padding: 14px; border-radius: 12px; background: var(--acc);
+       color: var(--acc-fg); font-weight: 600; text-decoration: none; }
+.web { color: var(--mute); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <p id="msg">正在打开闲鱼 App…</p>
+  <a class="btn" id="app" href="#">在闲鱼 App 打开</a>
+  <a class="web" id="web" href="#">打开网页版</a>
+</main>
+<script>
+  // 用法：…/?id=商品ID  →  跳到 fleamarket://item?id=商品ID（闲鱼 App 的商品页）
+  var id = new URLSearchParams(location.search).get("id") || "";
+  if (/^\d{6,20}$/.test(id)) {
+    var app = "fleamarket://item?id=" + id;
+    document.getElementById("app").href = app;
+    document.getElementById("web").href = "https://www.goofish.com/item?id=" + id;
+    location.href = app;
+  } else {
+    document.getElementById("msg").textContent = "链接里没有有效的商品 ID。";
+    document.getElementById("app").style.display = "none";
+    document.getElementById("web").style.display = "none";
+  }
+</script>
+</body>
+</html>
